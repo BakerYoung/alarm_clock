@@ -1,8 +1,8 @@
-import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:record/record.dart';
-import 'package:path_provider/path_provider.dart';
 import 'ringtone_service.dart';
+import 'platform_file_native.dart' if (dart.library.html) 'platform_file_web.dart';
+import 'app_dir_native.dart' if (dart.library.html) 'app_dir_web.dart';
 
 class AudioService {
   static final AudioPlayer _player = AudioPlayer();
@@ -30,14 +30,12 @@ class AudioService {
     final hasPermission = await _recorder.hasPermission();
     if (!hasPermission) return null;
 
-    final appDir = await getApplicationDocumentsDirectory();
-    final recordingsDir = Directory('${appDir.path}/recordings');
-    if (!await recordingsDir.exists()) {
-      await recordingsDir.create(recursive: true);
-    }
+    final appDir = await getAppDocumentsDir();
+    final dirPath = '$appDir/recordings';
+    await FileHelper.createDir(dirPath);
 
     final timestamp = DateTime.now().millisecondsSinceEpoch;
-    final path = '${recordingsDir.path}/$timestamp.m4a';
+    final path = '$dirPath/$timestamp.m4a';
 
     await _recorder.start(
       const RecordConfig(encoder: AudioEncoder.aacLc),

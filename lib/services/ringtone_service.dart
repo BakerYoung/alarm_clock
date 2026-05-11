@@ -1,7 +1,7 @@
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as p;
+import 'platform_file_native.dart' if (dart.library.html) 'platform_file_web.dart';
+import 'app_dir_native.dart' if (dart.library.html) 'app_dir_web.dart';
 
 class RingtoneService {
   static const builtinPrefix = 'builtin:';
@@ -15,22 +15,14 @@ class RingtoneService {
         '${builtinPrefix}森林微光',
       ];
 
-  static Future<Directory> get _ringtoneDir async {
-    final appDir = await getApplicationDocumentsDirectory();
-    final dir = Directory('${appDir.path}/ringtones');
-    if (!await dir.exists()) {
-      await dir.create(recursive: true);
-    }
-    return dir;
+  static Future<String> get _ringtoneDirPath async {
+    final appDir = await getAppDocumentsDir();
+    return '$appDir/ringtones';
   }
 
-  static Future<Directory> get _recordingDir async {
-    final appDir = await getApplicationDocumentsDirectory();
-    final dir = Directory('${appDir.path}/recordings');
-    if (!await dir.exists()) {
-      await dir.create(recursive: true);
-    }
-    return dir;
+  static Future<String> get _recordingDirPath async {
+    final appDir = await getAppDocumentsDir();
+    return '$appDir/recordings';
   }
 
   static Future<String?> importFile() async {
@@ -44,22 +36,21 @@ class RingtoneService {
     final sourcePath = file.path;
     if (sourcePath == null) return null;
 
-    final destDir = await _ringtoneDir;
-    final destPath = '${destDir.path}/${file.name}';
-    await File(sourcePath).copy(destPath);
+    final destDir = await _ringtoneDirPath;
+    await FileHelper.createDir(destDir);
+    final destPath = '$destDir/${file.name}';
+    await FileHelper.copyFile(sourcePath, destPath);
     return destPath;
   }
 
   static Future<List<String>> importedFiles() async {
-    final dir = await _ringtoneDir;
-    final files = dir.listSync().whereType<File>().toList();
-    return files.map((f) => f.path).toList();
+    final dir = await _ringtoneDirPath;
+    return FileHelper.listDir(dir);
   }
 
   static Future<List<String>> recordingFiles() async {
-    final dir = await _recordingDir;
-    final files = dir.listSync().whereType<File>().toList();
-    return files.map((f) => f.path).toList();
+    final dir = await _recordingDirPath;
+    return FileHelper.listDir(dir);
   }
 
   static String displayName(String path) {
@@ -74,9 +65,6 @@ class RingtoneService {
 
   static Future<void> deleteFile(String path) async {
     if (path.startsWith(builtinPrefix)) return;
-    final file = File(path);
-    if (await file.exists()) {
-      await file.delete();
-    }
+    await FileHelper.deleteFile(path);
   }
 }

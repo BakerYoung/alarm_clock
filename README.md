@@ -95,9 +95,35 @@ flutter analyze
 # 运行测试
 flutter test
 
-# 启动应用
-flutter run
+# 启动应用（Web 预览）
+flutter run -d chrome
+
+# macOS 桌面（需安装 Xcode）
+flutter run -d macos
+
+# iOS 模拟器（需安装 Xcode）
+flutter run -d ios
+
+# Android（需安装 Android SDK）
+flutter run -d android
 ```
+
+### Web 平台说明
+
+Web 平台可预览完整 UI 和核心功能（闹钟管理、节假日日历、铃声选择），但存在以下限制：
+
+| 功能 | Web | macOS/iOS/Android |
+|------|:---:|:---:|
+| 闹钟 CRUD | ✓ | ✓ |
+| 节假日日历 | ✓ | ✓ |
+| 内置铃声选择 | ✓ | ✓ |
+| 两级决策引擎 | ✓ | ✓ |
+| 录音功能 | ✗ | ✓ |
+| 导入本地音频 | ✗ | ✓ |
+| 系统通知推送 | ✗ | ✓ |
+| 铃声实际播放 | ✗ | ✓ |
+
+如需完整体验（录音、通知、文件导入），请在 macOS 上安装 Xcode 后运行 `flutter run -d macos`。
 
 ## License
 
