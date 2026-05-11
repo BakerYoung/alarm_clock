@@ -52,7 +52,6 @@ class AlarmScheduler {
         presentSound: true,
         presentAlert: true,
         presentBadge: true,
-        criticalAlert: true,
       ),
     );
 

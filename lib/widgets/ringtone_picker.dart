@@ -22,7 +22,6 @@ class RingtonePicker extends StatefulWidget {
 }
 
 class _RingtonePickerState extends State<RingtonePicker> {
-  late SoundType _selectedType;
   late String _selectedPath;
   late List<String> _importedFiles;
   late List<String> _recordings;
@@ -31,7 +30,6 @@ class _RingtonePickerState extends State<RingtonePicker> {
   @override
   void initState() {
     super.initState();
-    _selectedType = widget.initialType;
     _selectedPath = widget.initialPath;
     _loadFiles();
   }
@@ -48,7 +46,6 @@ class _RingtonePickerState extends State<RingtonePicker> {
 
   void _select(SoundType type, String path) {
     setState(() {
-      _selectedType = type;
       _selectedPath = path;
     });
     widget.onTypeChanged?.call(type);

@@ -4,7 +4,7 @@ class HolidayCache {
   final List<String> makeupDays; // ["2026-05-03", ...]
   final DateTime updatedAt;
 
-  const HolidayCache({
+  HolidayCache({
     required this.year,
     required this.holidays,
     required this.makeupDays,

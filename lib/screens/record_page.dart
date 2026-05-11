@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:record/record.dart';
 import '../services/audio_service.dart';
 
 class RecordPage extends StatefulWidget {
@@ -80,7 +79,7 @@ class _RecordPageState extends State<RecordPage> {
                   width: 3,
                 ),
                 color: _isRecording
-                    ? Colors.red.withOpacity(0.1 + _amplitude * 0.5)
+                    ? Colors.red.withValues(alpha: 0.1 + _amplitude * 0.5)
                     : Colors.grey.shade200,
               ),
               child: Icon(

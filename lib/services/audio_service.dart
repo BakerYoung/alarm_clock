@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:record/record.dart';
 import 'package:path_provider/path_provider.dart';
@@ -52,7 +53,7 @@ class AudioService {
 
   static Stream<RecordState> get recorderState => _recorder.onStateChanged();
 
-  static Stream<Amplitude> get amplitude => _recorder.onAmplitude(
-        const Amplitude(enabled: true),
+  static Stream<Amplitude> get amplitude => _recorder.onAmplitudeChanged(
+        const Duration(milliseconds: 100),
       );
 }

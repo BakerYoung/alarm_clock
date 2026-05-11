@@ -20,7 +20,7 @@ void main() {
   tearDown(() async {
     final d = await db.database;
     await d.close();
-    DatabaseService._db = null;
+    DatabaseService.reset();
   });
 
   test('fetchAndCache stores data and getHolidays returns from cache', () async {

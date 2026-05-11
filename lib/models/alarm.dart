@@ -14,7 +14,7 @@ class Alarm {
   final int snoozeMinutes;
   final DateTime createdAt;
 
-  const Alarm({
+  Alarm({
     this.id,
     required this.name,
     required this.time,

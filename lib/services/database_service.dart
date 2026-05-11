@@ -6,6 +6,11 @@ import '../models/holiday_cache.dart';
 class DatabaseService {
   static Database? _db;
 
+  /// Reset the database singleton. For testing only.
+  static void reset() {
+    _db = null;
+  }
+
   Future<Database> get database async {
     if (_db != null) return _db!;
     _db = await _initDb();
